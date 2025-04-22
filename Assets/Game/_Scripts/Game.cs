@@ -1,42 +1,35 @@
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private CinemachineCamera cameraAnchor;
-    [SerializeField] private GameObject npcPrefab;
-    [SerializeField] private int numNpcs;
+    [Header("Characters")]
     [SerializeField] private List<Character> characters;
 
-    private Board board => GetComponentInChildren<Board>();
+    [Header("Board")]
+    [SerializeField] private Board board;
 
-    private int turnIdx = 0;
+    [Header("Camera")]
+    [SerializeField] private CinemachineCamera cameraAnchor;
 
-    private void NextTurn()
+    [Header("Hud")]
+    [SerializeField] private Hud hud;
+
+    [Header("Gameplay")]
+    private int turnIdx;
+
+    private void StartTurn()
     {
-        turnIdx = turnIdx == characters.Count - 1 ? 0 : turnIdx + 1;
-        characters[turnIdx].StartTurn();
-        cameraAnchor.Follow = characters[turnIdx].transform;
+        hud.SetCharacter(characters[turnIdx]);
+        hud.ShowActions();
+
+        characters[turnIdx].OnTurnEnd += StartTurn;
     }
 
     private void Start()
     {
-        for (int i = 0; i < numNpcs; i++)
-        {
-            GameObject npc = Instantiate(npcPrefab, transform);
-            characters.Add(npc.GetComponent<Character>());
-        }
-
-        foreach (Character character in characters)
-        {
-            character.OnMoveEnd += (int propertyIdx) => board.PromptBuy(propertyIdx, character);
-            character.OnTurnEnd += NextTurn;
-        }
-
-        board.PropertySkipped += NextTurn;
-
-        characters[turnIdx].StartTurn();
-        cameraAnchor.Follow = characters[turnIdx].transform;
+        StartTurn();
     }
 }
