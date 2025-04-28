@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96cac9becc3b92c459ff478f44849085, type: 3}
   m_Name: Property3
   m_EditorClassIdentifier: 
-  title: Store
+  title: Grocery Store
   type: Orange
   rent: 8
   price: 10

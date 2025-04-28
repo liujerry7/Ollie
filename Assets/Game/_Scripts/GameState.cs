@@ -3,11 +3,9 @@ using UnityEngine;
 public class GameState : State
 {
     protected Game game;
-    protected Character character;
 
-    public GameState(Game newGame, Character newCharacter)
+    public GameState(Game newGame)
     {
         game = newGame;
-        character = newCharacter;
     }
 }

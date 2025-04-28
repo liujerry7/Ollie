@@ -4,7 +4,7 @@ public class CharacterStateMove : CharacterState
 {
     private float destX;
     private float destThreshold = 0.1f;
-    private float moveSpeed = 4f;
+    private float moveSpeed = 8f;
 
     public CharacterStateMove(Character newCharacter) : base(newCharacter)
     {
@@ -23,7 +23,7 @@ public class CharacterStateMove : CharacterState
 
     public override void Exit()
     {
-        character.OnTurnEnd?.Invoke();
+        character.OnMoveEnd?.Invoke();
     }
 
     public override void FixedUpdate()

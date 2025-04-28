@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96cac9becc3b92c459ff478f44849085, type: 3}
-  m_Name: Property4
+  m_Name: Property12
   m_EditorClassIdentifier: 
-  title: Train Station 1
-  type: Black
-  rent: 10
-  price: 25
+  title: Hospital
+  type: 
+  rent: 0
+  price: 0
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}
   owner: {fileID: 0}

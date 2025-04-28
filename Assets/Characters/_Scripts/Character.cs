@@ -9,11 +9,8 @@ public class Character : MonoBehaviour
     [Header("Money")]
     public float money = 200;
 
-    [Header("Board")]
-    [SerializeField] private Board board;
-
-    [Header("Gameplay")]
-    public UnityAction OnTurnEnd;
+    [Header("Movement")]
+    public UnityAction OnMoveEnd;
 
     [Header("Body")]
     [HideInInspector] public Rigidbody2D rb => GetComponent<Rigidbody2D>();
@@ -23,15 +20,7 @@ public class Character : MonoBehaviour
     [HideInInspector] public CharacterStateIdle stateIdle;
     [HideInInspector] public CharacterStateMove stateMove;
 
-    public void Move()
-    {
-        int numSpaces = Random.Range(1, 3);
-        int currSpace = Mathf.RoundToInt(transform.position.x / board.propertyWidth);
-        int destSpace = currSpace + numSpaces;
-        MoveTo(destSpace * board.propertyWidth);
-    }
-
-    protected virtual void MoveTo(float posX)
+    public virtual void MoveTo(float posX)
     {
         stateMove.SetDestination(posX);
         stateMachine.Transition(stateMove);

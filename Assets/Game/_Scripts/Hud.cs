@@ -4,33 +4,29 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
-    [SerializeField] private TMP_Text turnLabel;
+    [SerializeField] private TMP_Text propertyLabel;
     [SerializeField] private TMP_Text moneyLabel;
-    [SerializeField] private Button moveButton;
+    [SerializeField] private TMP_Text turnLabel;
+    [SerializeField] private GameObject hudActions;
 
-    private Character character;
-
-    public void SetCharacter(Character activeCharacter)
+    public void SetProperty(Property property)
     {
-        character = activeCharacter;
+        propertyLabel.text = property.title;
+    }
+
+    public void SetCharacter(Character character)
+    {
+        moneyLabel.text = "$" + character.money;
+        turnLabel.text = character.title + "'s turn";
     }
 
     public void ShowActions()
     {
-        moveButton.gameObject.SetActive(true);
-        moveButton.onClick.AddListener(character.Move);
-        moveButton.onClick.AddListener(HideActions);
+        hudActions.SetActive(true);
     }
 
     public void HideActions()
     {
-        moveButton.gameObject.SetActive(false);
-        moveButton.onClick.RemoveListener(character.Move);
-        moveButton.onClick.RemoveListener(HideActions);
-    }
-
-    private void Awake()
-    {
-        moveButton.gameObject.SetActive(false);
+        hudActions.SetActive(false);
     }
 }

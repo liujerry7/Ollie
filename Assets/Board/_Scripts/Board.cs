@@ -1,114 +1,100 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
-    [Header("Properties")]
-    [SerializeField] public List<Property> properties;
-    [SerializeField] public float propertyWidth = 10f;
+    [SerializeField] private List<Property> properties;
+    [SerializeField] private GameObject propertySpacePrefab;
+    [SerializeField] private float propertySpaceWidth = 10f;
 
-    public int GetSize()
+    private List<PropertySpace> propertySpaces;
+
+    public PropertySpace GetLeftPropertySpace()
     {
-        return properties.Count;
+        return propertySpaces[0];
     }
 
-    private void RenderProperties()
+    public PropertySpace GetRightPropertySpace()
     {
-        while (transform.childCount > 0) {
-            DestroyImmediate(transform.GetChild(0).gameObject);
-        }
+        return propertySpaces[propertySpaces.Count - 1];
+    }
 
-        int idx = 0;
+    public float GetSize()
+    {
+        return GetRightPropertySpace().transform.position.x - GetLeftPropertySpace().transform.position.x;
+    }
 
-        foreach (Property property in properties)
+    public Property GetPropertyAt(float pos)
+    {
+        return propertySpaces[CalcDistSpaces(pos - propertySpaces[0].transform.position.x)].property;
+    }
+
+    public int GetRandomSpace()
+    {
+        float randomPos = Random.Range(propertySpaces[0].transform.position.x, propertySpaces[propertySpaces.Count - 1].transform.position.x);
+        return Mathf.RoundToInt(randomPos / propertySpaceWidth);
+    }
+
+    public float CalcSpacesDist(int numSpaces)
+    {
+        return numSpaces * propertySpaceWidth;
+    }
+
+    public int CalcDistSpaces(float dist)
+    {
+        return Mathf.FloorToInt(dist / propertySpaceWidth);
+    }
+
+    public float GetRightBound()
+    {
+        return propertySpaces[propertySpaces.Count - 1].transform.position.x - 2 * propertySpaceWidth;
+    }
+
+    public float GetLeftBound()
+    {
+        return propertySpaces[0].transform.position.x + 2 * propertySpaceWidth;
+    }
+
+    public void RotatePropertiesRight()
+    {
+        PropertySpace rightProperty = propertySpaces[propertySpaces.Count - 1];
+        PropertySpace leftProperty = propertySpaces[0];
+
+        leftProperty.transform.position = new Vector2(rightProperty.transform.position.x + propertySpaceWidth, leftProperty.transform.position.y);
+
+        propertySpaces.Remove(leftProperty);
+        propertySpaces.Add(leftProperty);
+    }
+
+    public void RotatePropertiesLeft()
+    {
+        PropertySpace rightProperty = propertySpaces[propertySpaces.Count - 1];
+        PropertySpace leftProperty = propertySpaces[0];
+
+        rightProperty.transform.position = new Vector2(leftProperty.transform.position.x - propertySpaceWidth, rightProperty.transform.position.y);
+
+        propertySpaces.Remove(rightProperty);
+        propertySpaces.Insert(0, rightProperty);
+    }
+
+    private void InitProperties()
+    {
+        propertySpaces = new List<PropertySpace>();
+
+        for (int i = 0; i < properties.Count; i++)
         {
-            GameObject propertyUnitObject = new GameObject();
-            propertyUnitObject.AddComponent<SpriteRenderer>();
-            propertyUnitObject.GetComponent<SpriteRenderer>().sprite = property.sprite;
-            propertyUnitObject.name = property.title;
-            propertyUnitObject.transform.SetParent(transform);
-            propertyUnitObject.transform.position = new Vector2(idx * 10f, 4);
-            idx++;
+            GameObject propertySpaceObj = Instantiate(propertySpacePrefab, transform);
+            PropertySpace propertySpace = propertySpaceObj.GetComponent<PropertySpace>();
+
+            propertySpace.transform.position = new Vector2(propertySpaceWidth * i, 4);
+            propertySpace.property = properties[i];
+
+            propertySpaces.Add(propertySpace);
         }
     }
 
     private void Start()
     {
-        RenderProperties();
+        InitProperties();
     }
-
-    // public UnityAction PropertySkipped;
-
-    // [SerializeField] private List<Property> properties;
-    // [SerializeField] private GameObject buyButtonPrefab;
-    // [SerializeField] private GameObject skipButtonPrefab;
-    // [SerializeField] private GameObject propertySnippetPrefab;
-    // [SerializeField] private AudioClip kachingSfx;
-
-    // private GameObject propertySnippetObject;
-    // private GameObject buyButtonObject;
-    // private GameObject skipButtonObject;
-
-    // public void PromptBuy(int propertyIdx, Character character)
-    // {
-    //     if (properties[propertyIdx].owner != null)
-    //     {
-    //         properties[propertyIdx].owner.money += properties[propertyIdx].rent;
-    //         character.money -= properties[propertyIdx].rent;
-    //         PropertySkipped?.Invoke();
-    //         Speaker.instance.PlaySfxClip(kachingSfx, character.transform, 1);
-    //         return;
-    //     }
-
-    //     propertySnippetObject = Instantiate(propertySnippetPrefab, transform);
-    //     buyButtonObject = Instantiate(buyButtonPrefab, transform);
-    //     skipButtonObject = Instantiate(skipButtonPrefab, transform);
-
-    //     propertySnippetObject.transform.position = new Vector2(propertyIdx * 10, 8);
-    //     propertySnippetObject.GetComponent<PropertySnippet>().property = properties[propertyIdx];
-
-    //     buyButtonObject.transform.position = new Vector2(propertyIdx * 10 - 2, -4);
-    //     buyButtonObject.GetComponentInChildren<Button>().onClick.AddListener(() => BuyProperty(propertyIdx, character));
-
-    //     skipButtonObject.transform.position = new Vector2(propertyIdx * 10 + 2, -4);
-    //     skipButtonObject.GetComponentInChildren<Button>().onClick.AddListener(SkipProperty);
-    // }
-
-    // private void BuyProperty(int propertyIdx, Character character)
-    // {
-    //     Destroy(propertySnippetObject);
-    //     Destroy(buyButtonObject);
-    //     Destroy(skipButtonObject);
-
-    //     properties[propertyIdx].owner = character;
-    //     character.money -= properties[propertyIdx].price;
-    //     PropertySkipped?.Invoke();
-    // }
-
-    // private void SkipProperty()
-    // {
-    //     Destroy(propertySnippetObject);
-    //     Destroy(buyButtonObject);
-    //     Destroy(skipButtonObject);
-
-    //     PropertySkipped?.Invoke();
-    // }
-
-    // private void Start()
-    // {
-    //     int idx = 0;
-
-    //     foreach (Property property in properties)
-    //     {
-    //         GameObject propertyUnitObject = new GameObject();
-    //         propertyUnitObject.AddComponent<SpriteRenderer>();
-    //         propertyUnitObject.GetComponent<SpriteRenderer>().sprite = property.sprite;
-    //         propertyUnitObject.name = property.title;
-    //         propertyUnitObject.transform.SetParent(transform);
-    //         propertyUnitObject.transform.position = new Vector2(idx * 10f, 4);
-    //         idx++;
-    //     }
-    // }
 }
