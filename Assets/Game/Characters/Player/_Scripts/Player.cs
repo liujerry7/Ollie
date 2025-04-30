@@ -1,8 +1,22 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : Character
 {
+    [SerializeField] private Hud hud;
+
+    public override void Play()
+    {
+        hud.moveButton.gameObject.SetActive(true);
+    }
+
+    private void Start()
+    {
+        hud.moveButton.onClick.AddListener(() => StartCoroutine(Move()));
+        hud.moveButton.onClick.AddListener(() => hud.moveButton.gameObject.SetActive(false));
+    }
+
     // private int moveIdx;
     // private float prevX;
 

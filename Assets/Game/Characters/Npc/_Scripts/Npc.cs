@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Npc : Character
 {
+    public override void Play()
+    {
+        StartCoroutine(Move());
+    }
+
     // private int moveIdx;
     // private float prevX;
 
