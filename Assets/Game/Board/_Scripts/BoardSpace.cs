@@ -1,23 +1,37 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BoardSpace : MonoBehaviour
 {
-    public string title;
-    public string description;
-    public float price;
-    public float rent;
+    public Property property;
 
-    public Character owner;
+    public SpriteRenderer spriteRenderer => GetComponent<SpriteRenderer>();
 
-    public void Buy(Character character)
+    public UnityEvent OnBuy;
+
+    public bool owned;
+
+    public void Randomize()
     {
-        character.money -= price;
-        owner = character;
+        if (owned) return;
+
+        int randIdx = Random.Range(0, PropertiesList.instance.properties.Count);
+        property = PropertiesList.instance.properties[randIdx];
+        spriteRenderer.sprite = property.sprite;
     }
 
-    public void ChargeRent(Character character)
+    public void Buy()
     {
-        character.money -= rent;
-        owner.money += rent;
+        if (Player.instance.money >= property.price)
+        {
+            owned = true;
+            Player.instance.money -= property.price;
+        }
     }
+
+    private void OnMouseDown()
+    {
+        OnBuy?.Invoke();
+    }
+
 }

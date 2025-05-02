@@ -4,48 +4,43 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
-    public string title;
-    public float money = 100;
-    public int boardIdx = 0;
-
-    public Board board;
-    public UnityAction OnMoveEnd;
     public Rigidbody2D rb => GetComponent<Rigidbody2D>();
 
-    public virtual void Play()
+    public StateMachine<CharacterState> stateMachine;
+    public CharacterStatePatrol statePatrol;
+    public CharacterStateFreeze stateFreeze;
+
+    public bool frozen;
+
+    public void Freeze()
     {
+        stateMachine.Transition(stateFreeze);
     }
 
-    public virtual IEnumerator Move()
+    public void Unfreeze()
     {
-        int moveSpaces = Random.Range(1, 4);
-
-        for (int i = 0; i < moveSpaces; i++)
-        {
-            boardIdx = (boardIdx + 1) % board.spaces.Count;
-
-            float targetX = board.spaces[boardIdx].transform.position.x;
-
-            Vector2 targetPos = new Vector2(targetX, rb.position.y);
-
-            rb.MovePosition(targetPos);
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        Rest();
-        OnMoveEnd?.Invoke();
+        stateMachine.Transition(statePatrol);
     }
 
-    private void Rest()
+    private void Awake()
     {
-        if (board.spaces[boardIdx].owner == null)
-        {
-            board.spaces[boardIdx].Buy(this);
-        }
-        else
-        {
-            board.spaces[boardIdx].ChargeRent(this);
-        }
+        stateMachine = new StateMachine<CharacterState>();
+        statePatrol = new CharacterStatePatrol(this);
+        stateFreeze = new CharacterStateFreeze(this);
+    }
+
+    private void Start()
+    {
+        stateMachine.Init(statePatrol);
+    }
+
+    private void Update()
+    {
+        stateMachine.currState.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine.currState.FixedUpdate();
     }
 }

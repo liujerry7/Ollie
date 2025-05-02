@@ -4,10 +4,11 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
-    public Button moveButton;
+    public Button endTurnButton;
+    public TMP_Text moneyLabel;
 
-    private void Start()
+    private void Update()
     {
-        moveButton.gameObject.SetActive(false);
+        moneyLabel.text = "$" + Player.instance.money;
     }
 }
