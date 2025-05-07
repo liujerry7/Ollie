@@ -23,10 +23,25 @@ public class GameStateBuy : GameState
         base.Enter();
 
         foreach (BoardSpace boardSpace in game.board.spaces)
+        {
             boardSpace.OnBuy.AddListener(boardSpace.Buy);
+            boardSpace.OnHoverEnter.AddListener(() => game.hud.ShowTooltip(boardSpace));
+            boardSpace.OnHoverExit.AddListener(game.hud.HideTooltip);
+        }
 
         game.hud.endTurnButton.interactable = true;
         game.hud.endTurnButton.onClick.AddListener(EndBuy);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        foreach (BoardSpace boardSpace in game.board.spaces)
+        {
+            boardSpace.OnHoverEnter.RemoveAllListeners();
+            boardSpace.OnHoverExit.RemoveAllListeners();
+        }
     }
 
     public override void Update()

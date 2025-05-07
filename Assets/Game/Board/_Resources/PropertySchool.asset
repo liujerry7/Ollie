@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Increase rent price by 1 for every character that lands here
   price: 1
   rent: 1
-  sprite: {fileID: 21300000, guid: c4a079a2b2b9d704aa8546bd8c18159b, type: 3}
+  sprite: {fileID: -714655812665524580, guid: bedb50b8ddcd8bb4ba66ac0e0a91426b, type: 3}

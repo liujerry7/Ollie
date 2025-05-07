@@ -13,9 +13,11 @@ public class Board : MonoBehaviour
 
     public BoardSpace GetBoardSpaceAt(float pos)
     {
-        int idx = Mathf.FloorToInt(pos / 10f);
+        float leftPos = -20;
+        int idx = Mathf.FloorToInt((pos - leftPos) / 10f);
 
-        if (idx < 0 || idx >= spaces.Count) return null;
+        if (idx < 0) return spaces[0];
+        if (idx >= spaces.Count) return spaces[spaces.Count - 1];
 
         return spaces[idx];
     }

@@ -1,9 +1,10 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameStateTax : GameState
 {
-    public float tax = 1f;
-    public float stateDuration = 2f;
+    private float stateDuration = 2f;
 
     public GameStateTax(Game newGame) : base(newGame)
     {
@@ -13,20 +14,26 @@ public class GameStateTax : GameState
     {
         base.Enter();
 
-        Player.instance.money -= tax;
+        game.hud.taxTitleCard.SetActive(true);
+        game.hud.taxTitleCard.GetComponentInChildren<TMP_Text>().text = "TAX: $" + game.tax;
         stateTimer = stateDuration;
-
-        if (Player.instance.money <= 0)
-        {
-            Debug.Log("Game Over");
-        }
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        tax *= 2;
+        Player.instance.money -= game.tax;
+        game.hud.taxTitleCard.SetActive(false);
+        game.tax *= 2;
+
+        if (Player.instance.money <= 0)
+        {
+            game.gameOver.gameObject.SetActive(true);
+            game.gameOver.GetComponentInChildren<Button>().onClick.AddListener(() => game.stateMachine.Transition(game.stateInit));
+            Time.timeScale = 0;
+        }
+
     }
 
     public override void Update()

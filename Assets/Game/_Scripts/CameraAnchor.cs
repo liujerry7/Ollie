@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraAnchor : MonoBehaviour
 {
@@ -8,15 +9,21 @@ public class CameraAnchor : MonoBehaviour
 
     private int boardIdx = 2;
 
-    public void MoveRight()
+    public void MoveRight(InputAction.CallbackContext context)
     {
-        boardIdx = (boardIdx + 1) % board.spaces.Count;
-        anchor.Follow = board.spaces[boardIdx].transform;
+        if (context.performed)
+        {
+            boardIdx = (boardIdx + 1) % board.spaces.Count;
+            anchor.Follow = board.spaces[boardIdx].transform;
+        }
     }
 
-    public void MoveLeft()
+    public void MoveLeft(InputAction.CallbackContext context)
     {
-        boardIdx = boardIdx == 0 ? board.spaces.Count - 1 : boardIdx - 1;
-        anchor.Follow = board.spaces[boardIdx].transform;
+        if (context.performed)
+        {
+            boardIdx = boardIdx == 0 ? board.spaces.Count - 1 : boardIdx - 1;
+            anchor.Follow = board.spaces[boardIdx].transform;
+        }
     }
 }

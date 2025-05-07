@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public Board board;
     public Player player;
     public List<Character> characters;
+    public GameOver gameOver;
 
     public StateMachine<GameState> stateMachine;
     public GameStateInit stateInit;
@@ -16,6 +17,8 @@ public class Game : MonoBehaviour
     public GameStateBuy stateBuy;
     public GameStateCollect stateCollect;
     public GameStateTax stateTax;
+
+    public float tax;
 
     private void Awake()
     {

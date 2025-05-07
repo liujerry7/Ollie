@@ -29,11 +29,6 @@ public class Character : MonoBehaviour
         stateFreeze = new CharacterStateFreeze(this);
     }
 
-    private void Start()
-    {
-        stateMachine.Init(statePatrol);
-    }
-
     private void Update()
     {
         stateMachine.currState.Update();

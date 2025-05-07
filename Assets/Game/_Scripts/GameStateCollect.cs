@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GameStateCollect : GameState
 {
     private float stateDuration = 2f;
@@ -19,7 +17,10 @@ public class GameStateCollect : GameState
             BoardSpace boardSpace = game.board.GetBoardSpaceAt(character.transform.position.x);
 
             if (boardSpace != null && boardSpace.owned)
+            {
+                game.StartCoroutine(game.hud.ShowPopup(character, boardSpace.property.rent));
                 Player.instance.money += boardSpace.property.rent;
+            }
         }
 
     }
