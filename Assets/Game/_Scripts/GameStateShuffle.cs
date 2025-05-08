@@ -17,8 +17,7 @@ public class GameStateShuffle : GameState
         stateTimer = stateDuration;
         randomizeTimer = randomizePeriod;
 
-        foreach (Character character in game.characters)
-            character.Unfreeze();
+        game.mother.UnfreezeCharacters();
     }
 
     public override void Update()

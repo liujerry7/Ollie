@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PropertyCityHall
   m_EditorClassIdentifier: 
   title: City Hall
-  description: Increase rent for every property owned
+  description: Increase rent by 1 on buying new property
   price: 5
   rent: 3
-  sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}
+  sprite: {fileID: -1581354031280310994, guid: 1fa2337c137990641a29140029f371bf, type: 3}

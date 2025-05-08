@@ -7,7 +7,7 @@ public class CameraAnchor : MonoBehaviour
     public Board board;
     public CinemachineCamera anchor;
 
-    private int boardIdx = 2;
+    private int boardIdx = 4;
 
     public void MoveRight(InputAction.CallbackContext context)
     {

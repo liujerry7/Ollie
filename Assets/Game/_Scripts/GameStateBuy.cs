@@ -6,10 +6,35 @@ public class GameStateBuy : GameState
     {
     }
 
+    private void StartBuy(BoardSpace boardSpaceBuying)
+    {
+        if (Player.instance.money < boardSpaceBuying.property.price || boardSpaceBuying.owned) return;
+
+        boardSpaceBuying.Buy();
+
+        int numApartments = 0;
+
+        foreach (BoardSpace boardSpace in game.board.spaces)
+        {
+            if (boardSpace.owned && boardSpace.property.title == "Apartment")
+                numApartments++;
+        }
+
+        foreach (BoardSpace boardSpace in game.board.spaces)
+        {
+            if (boardSpace.owned && boardSpace.property.title == "City Hall")
+                boardSpace.property.rent++;
+
+
+            if (boardSpace.owned && boardSpace.property.title == "Apartment")
+                boardSpace.property.rent = Mathf.Pow(2, numApartments);
+        }
+
+    }
+
     private void EndBuy()
     {
-        foreach (Character character in game.characters)
-            character.Freeze();
+        game.mother.FreezeCharacters();
 
         foreach (BoardSpace boardSpace in game.board.spaces)
             boardSpace.OnBuy.RemoveAllListeners();
@@ -24,7 +49,7 @@ public class GameStateBuy : GameState
 
         foreach (BoardSpace boardSpace in game.board.spaces)
         {
-            boardSpace.OnBuy.AddListener(boardSpace.Buy);
+            boardSpace.OnBuy.AddListener(() => StartBuy(boardSpace));
             boardSpace.OnHoverEnter.AddListener(() => game.hud.ShowTooltip(boardSpace));
             boardSpace.OnHoverExit.AddListener(game.hud.HideTooltip);
         }
@@ -48,18 +73,7 @@ public class GameStateBuy : GameState
     {
         base.Update();
 
-        bool allCharactersFrozen = true;
-
-        foreach (Character character in game.characters)
-        {
-            if (!character.frozen)
-            {
-                allCharactersFrozen = false;
-                break;
-            }
-        }
-
-        if (allCharactersFrozen)
+        if (game.mother.AreAllCharactersFrozen())
             game.stateMachine.Transition(game.stateCollect);
     }
 

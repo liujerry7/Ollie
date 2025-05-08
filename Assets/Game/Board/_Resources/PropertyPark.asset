@@ -16,4 +16,4 @@ MonoBehaviour:
   description: No special effect
   price: 3
   rent: 5
-  sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}
+  sprite: {fileID: -734796840722011684, guid: 725ce3533e1deb245a4af466d516b697, type: 3}

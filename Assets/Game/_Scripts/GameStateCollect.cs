@@ -12,7 +12,7 @@ public class GameStateCollect : GameState
 
         stateTimer = stateDuration;
 
-        foreach (Character character in game.characters)
+        foreach (Character character in game.mother.characters)
         {
             BoardSpace boardSpace = game.board.GetBoardSpaceAt(character.transform.position.x);
 
@@ -20,6 +20,12 @@ public class GameStateCollect : GameState
             {
                 game.StartCoroutine(game.hud.ShowPopup(character, boardSpace.property.rent));
                 Player.instance.money += boardSpace.property.rent;
+
+                if (boardSpace.property.title == "Factory")
+                    boardSpace.property.rent *= 1.5f;
+
+                if (boardSpace.property.title == "School")
+                    boardSpace.property.rent++;
             }
         }
 

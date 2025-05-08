@@ -37,7 +37,7 @@ public class Hud : MonoBehaviour
 
     public IEnumerator ShowPopup(Character character, float amount)
     {
-        Vector2 offset = new Vector2(0, 50);
+        Vector2 offset = new Vector2(0, 100);
         GameObject popupObj = Instantiate(popupPrefab, transform);
 
         popupObj.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, character.transform.position) + offset;

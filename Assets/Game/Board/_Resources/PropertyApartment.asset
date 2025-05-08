@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Rent doubles for every apartment owned
   price: 2
   rent: 1
-  sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}
+  sprite: {fileID: -5852267500452843241, guid: 95c1178cab12b5e49b365aafbdac6104, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PropertyFactory
   m_EditorClassIdentifier: 
   title: Factory
-  description: Every worker that lands here pays double rent
-  price: 1
+  description: Multiply rent by 1.5 for every worker that lands on here
+  price: 3
   rent: 1
   sprite: {fileID: 21300000, guid: 076d733a8e8030d4daf5846baf5510f5, type: 3}
