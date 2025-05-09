@@ -1,42 +1,40 @@
-using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private CinemachineCamera cameraAnchor;
-    [SerializeField] private GameObject npcPrefab;
-    [SerializeField] private int numNpcs;
-    [SerializeField] private List<Character> characters;
+    public Hud hud;
+    public Board board;
+    public Player player;
+    public Mother mother;
+    public GameOver gameOver;
+    public CameraAnchor cameraAnchor;
 
-    private Board board => GetComponentInChildren<Board>();
+    public StateMachine<GameState> stateMachine;
+    public GameStateInit stateInit;
+    public GameStateShuffle stateShuffle;
+    public GameStateBuy stateBuy;
+    public GameStateCollect stateCollect;
+    public GameStateTax stateTax;
 
-    private int turnIdx = 0;
+    public float tax;
 
-    private void NextTurn()
+    private void Awake()
     {
-        turnIdx = turnIdx == characters.Count - 1 ? 0 : turnIdx + 1;
-        characters[turnIdx].StartTurn();
-        cameraAnchor.Follow = characters[turnIdx].transform;
+        stateMachine = new StateMachine<GameState>();
+        stateInit = new GameStateInit(this);
+        stateShuffle = new GameStateShuffle(this);
+        stateBuy = new GameStateBuy(this);
+        stateCollect = new GameStateCollect(this);
+        stateTax = new GameStateTax(this);
     }
 
     private void Start()
     {
-        for (int i = 0; i < numNpcs; i++)
-        {
-            GameObject npc = Instantiate(npcPrefab, transform);
-            characters.Add(npc.GetComponent<Character>());
-        }
+        stateMachine.Init(stateInit);
+    }
 
-        foreach (Character character in characters)
-        {
-            character.OnMoveEnd += (int propertyIdx) => board.PromptBuy(propertyIdx, character);
-            character.OnTurnEnd += NextTurn;
-        }
-
-        board.PropertySkipped += NextTurn;
-
-        characters[turnIdx].StartTurn();
-        cameraAnchor.Follow = characters[turnIdx].transform;
+    private void Update()
+    {
+        stateMachine.currState.Update();
     }
 }
