@@ -23,11 +23,11 @@ public class GameStateTax : GameState
     {
         base.Exit();
 
-        Player.instance.money -= game.tax;
+        game.player.money -= game.tax;
         game.hud.taxTitleCard.SetActive(false);
         game.tax *= 2;
 
-        if (Player.instance.money <= 0)
+        if (game.player.money <= 0)
         {
             game.gameOver.gameObject.SetActive(true);
             game.gameOver.GetComponentInChildren<Button>().onClick.AddListener(() => game.stateMachine.Transition(game.stateInit));

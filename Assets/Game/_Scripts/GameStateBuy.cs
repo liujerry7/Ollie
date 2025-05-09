@@ -6,11 +6,45 @@ public class GameStateBuy : GameState
     {
     }
 
-    private void StartBuy(BoardSpace boardSpaceBuying)
+    private void EndBuy()
     {
-        if (Player.instance.money < boardSpaceBuying.property.price || boardSpaceBuying.owned) return;
+        game.mother.FreezeCharacters();
 
-        boardSpaceBuying.Buy();
+        game.hud.endTurnButton.interactable = false;
+        game.hud.buyButton.interactable = false;
+        game.hud.sellButton.interactable = false;
+
+        game.hud.endTurnButton.onClick.RemoveAllListeners();
+        game.hud.buyButton.onClick.RemoveAllListeners();
+        game.hud.sellButton.onClick.RemoveAllListeners();
+
+        game.stateMachine.Transition(game.stateCollect);
+    }
+
+
+    private void BuySpaces()
+    {
+        float totalPrice = 0;
+
+        foreach (BoardSpace boardSpace in game.board.spaces)
+        {
+            if (boardSpace.selected)
+                totalPrice += boardSpace.property.price;
+        }
+
+        if (game.player.money < totalPrice) return;
+
+        foreach (BoardSpace boardSpace in game.board.spaces)
+        {
+            if (boardSpace.selected)
+                BuySpace(boardSpace);
+        }
+    }
+
+    private void BuySpace(BoardSpace boardSpaceBuying)
+    {
+        boardSpaceBuying.Buy(game.player);
+        boardSpaceBuying.Unselect();
 
         int numApartments = 0;
 
@@ -32,49 +66,28 @@ public class GameStateBuy : GameState
 
     }
 
-    private void EndBuy()
+
+    private void SellSpaces()
     {
-        game.mother.FreezeCharacters();
-
         foreach (BoardSpace boardSpace in game.board.spaces)
-            boardSpace.OnBuy.RemoveAllListeners();
-
-        game.hud.endTurnButton.interactable = false;
-        game.hud.endTurnButton.onClick.RemoveAllListeners();
+        {
+            if (boardSpace.selected)
+            {
+                boardSpace.Sell(game.player);
+                boardSpace.Unselect();
+            }
+        }
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        foreach (BoardSpace boardSpace in game.board.spaces)
-        {
-            boardSpace.OnBuy.AddListener(() => StartBuy(boardSpace));
-            boardSpace.OnHoverEnter.AddListener(() => game.hud.ShowTooltip(boardSpace));
-            boardSpace.OnHoverExit.AddListener(game.hud.HideTooltip);
-        }
-
         game.hud.endTurnButton.interactable = true;
+        game.hud.buyButton.interactable = true;
+        game.hud.sellButton.interactable = true;
         game.hud.endTurnButton.onClick.AddListener(EndBuy);
+        game.hud.buyButton.onClick.AddListener(BuySpaces);
+        game.hud.sellButton.onClick.AddListener(SellSpaces);
     }
-
-    public override void Exit()
-    {
-        base.Exit();
-
-        foreach (BoardSpace boardSpace in game.board.spaces)
-        {
-            boardSpace.OnHoverEnter.RemoveAllListeners();
-            boardSpace.OnHoverExit.RemoveAllListeners();
-        }
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (game.mother.AreAllCharactersFrozen())
-            game.stateMachine.Transition(game.stateCollect);
-    }
-
 }

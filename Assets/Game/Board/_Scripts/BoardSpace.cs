@@ -1,18 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class BoardSpace : MonoBehaviour
 {
     public Property property;
-
-    public SpriteRenderer spriteRenderer => GetComponent<SpriteRenderer>();
-
-    public UnityEvent OnBuy;
-    public UnityEvent OnHoverEnter;
-    public UnityEvent OnHoverExit;
+    public PropertyTooltip tooltip => GetComponentInChildren<PropertyTooltip>(true);
+    public SpriteRenderer spriteRenderer => GetComponentInChildren<SpriteRenderer>();
+    public List<Character> characters = new List<Character>();
 
     public bool owned;
+    public bool selected;
+
+    public void AddCharacter(Character character)
+    {
+        characters.Add(character);
+
+        for (int i = 0; i < characters.Count; i++)
+        {
+            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, 0);
+        }
+    }
+
+    public void RemoveCharacter(Character character)
+    {
+        characters.Remove(character);
+
+        for (int i = 0; i < characters.Count; i++)
+        {
+            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, 0);
+        }
+    }
+
+    public void ClearCharacters()
+    {
+        characters.Clear();
+    }
 
     public void Randomize(List<Property> propertyList)
     {
@@ -23,24 +45,55 @@ public class BoardSpace : MonoBehaviour
         spriteRenderer.sprite = property.sprite;
     }
 
-    public void Buy()
+    public void Buy(Player player)
     {
+        if (owned) return;
+
         owned = true;
-        Player.instance.money -= property.price;
+        player.money -= property.price;
+    }
+
+    public void Sell(Player player)
+    {
+        if (!owned) return;
+
+        owned = false;
+        player.money += Mathf.RoundToInt(property.price / 2);
+    }
+
+    public void Select()
+    {
+        if (selected) return;
+        
+        Vector3 spritePos = spriteRenderer.transform.position;
+        spriteRenderer.transform.position = new Vector3(spritePos.x, spritePos.y + 2, spritePos.z);
+        selected = true;
+    }
+
+    public void Unselect()
+    {
+        if (!selected) return;
+
+        
+        Vector3 spritePos = spriteRenderer.transform.position;
+        spriteRenderer.transform.position = new Vector3(spritePos.x, spritePos.y - 2, spritePos.z);
+        selected = false;
     }
 
     private void OnMouseEnter()
     {
-        OnHoverEnter?.Invoke();
+        tooltip.property = property;
+        tooltip.gameObject.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        OnHoverExit?.Invoke();
+        tooltip.gameObject.SetActive(false);
     }
 
     private void OnMouseDown()
     {
-        OnBuy?.Invoke();
+        if (selected) Unselect();
+        else Select();
     }
 }

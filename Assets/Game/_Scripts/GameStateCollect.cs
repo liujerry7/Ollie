@@ -19,10 +19,10 @@ public class GameStateCollect : GameState
             if (boardSpace != null && boardSpace.owned)
             {
                 game.StartCoroutine(game.hud.ShowPopup(character, boardSpace.property.rent));
-                Player.instance.money += boardSpace.property.rent;
+                game.player.money += boardSpace.property.rent;
 
                 if (boardSpace.property.title == "Factory")
-                    boardSpace.property.rent *= 1.5f;
+                    boardSpace.property.rent *= 2f;
 
                 if (boardSpace.property.title == "School")
                     boardSpace.property.rent++;

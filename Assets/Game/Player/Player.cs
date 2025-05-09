@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player instance;
+    public float money = 10;
 
-    public float money = 10f;
-
-    private void Awake()
+    public void Init()
     {
-        if (instance == null)
-            instance = this; 
+        money = 10;
     }
 }

@@ -15,11 +15,12 @@ public class GameStateInit : GameState
 
         game.gameOver.gameObject.SetActive(false);
         game.gameOver.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-        game.mother.SpawnCharacters();
-        game.board.FreeSpaces();
+
+        game.board.Init();
+        game.player.Init();
+        game.cameraAnchor.Init();
 
         game.tax = 1;
-        game.player.money = 10;
 
         game.stateMachine.Transition(game.stateShuffle);
     }

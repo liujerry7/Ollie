@@ -7,7 +7,13 @@ public class CameraAnchor : MonoBehaviour
     public Board board;
     public CinemachineCamera anchor;
 
-    private int boardIdx = 4;
+    private int boardIdx;
+
+    public void Init()
+    {
+        boardIdx = Mathf.FloorToInt(board.spaces.Count / 2);
+        anchor.Follow = board.spaces[boardIdx].transform;
+    }
 
     public void MoveRight(InputAction.CallbackContext context)
     {

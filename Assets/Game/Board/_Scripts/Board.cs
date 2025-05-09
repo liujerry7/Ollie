@@ -6,10 +6,22 @@ public class Board : MonoBehaviour
     public List<Property> propertyList;
     public List<BoardSpace> spaces;
 
-    public void FreeSpaces()
+    public GameObject boardSpacePrefab;
+
+    public int numInitSpaces;
+
+    public void Init()
     {
-        foreach (BoardSpace space in spaces)
-            space.owned = false;
+        for (int i = 0; i < numInitSpaces; i++)
+        {
+            GameObject boardSpaceObj = Instantiate(boardSpacePrefab, transform);
+            BoardSpace boardSpace = boardSpaceObj.GetComponent<BoardSpace>();
+
+            boardSpaceObj.transform.position = new Vector3((i - Mathf.FloorToInt(numInitSpaces / 2)) * 10f, boardSpaceObj.transform.position.y, boardSpaceObj.transform.position.z);
+            boardSpace.owned = false;
+
+            spaces.Add(boardSpace);
+        }
     }
 
     public void Randomize()

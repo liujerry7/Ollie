@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
     public Player player;
     public Mother mother;
     public GameOver gameOver;
+    public CameraAnchor cameraAnchor;
 
     public StateMachine<GameState> stateMachine;
     public GameStateInit stateInit;

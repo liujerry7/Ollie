@@ -6,29 +6,40 @@ public class Mother : MonoBehaviour
     public List<Character> characters;
 
     public GameObject characterPrefab;
-    public int numCharacters = 5;
+    public int numCharacters = 1;
 
-    public void SpawnCharacters()
+    public void SpawnCharacters(Board board)
     {
         for (int i = 0; i < numCharacters; i++)
         {
             GameObject characterObj = Instantiate(characterPrefab, transform);
-            characterObj.transform.position = new Vector2(Random.Range(-40f, 40f), 0);
-
             Character character = characterObj.GetComponent<Character>();
-            character.stateMachine.Init(character.statePatrol);
+
+            int boardSpaceIdx = Random.Range(0, board.spaces.Count);
+
+            character.board = board;
+            character.boardIdx = boardSpaceIdx;
+            character.Init();
+
+            board.spaces[boardSpaceIdx].AddCharacter(character);
+
             characters.Add(character);
         }
     }
 
-    public void DespawnCharacters()
+    public void DespawnCharacters(Board board)
     {
+        foreach (BoardSpace boardSpace in board.spaces)
+        {
+            boardSpace.ClearCharacters();
+        }
+
         foreach (Character character in characters)
         {
             Destroy(character.gameObject);
         }
 
-        characters = new List<Character>();
+        characters.Clear();
     }
 
     public void FreezeCharacters()
@@ -41,21 +52,5 @@ public class Mother : MonoBehaviour
     {
         foreach (Character character in characters)
             character.Unfreeze();
-    }
-
-    public bool AreAllCharactersFrozen()
-    {
-        bool allCharactersFrozen = true;
-
-        foreach (Character character in characters)
-        {
-            if (!character.frozen)
-            {
-                allCharactersFrozen = false;
-                break;
-            }
-        }
-
-        return allCharactersFrozen;
     }
 }

@@ -15,5 +15,5 @@ MonoBehaviour:
   title: City Hall
   description: Increase rent by 1 on buying new property
   price: 5
-  rent: 3
+  rent: 1
   sprite: {fileID: -1581354031280310994, guid: 1fa2337c137990641a29140029f371bf, type: 3}

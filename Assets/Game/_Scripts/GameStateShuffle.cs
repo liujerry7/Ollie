@@ -17,7 +17,8 @@ public class GameStateShuffle : GameState
         stateTimer = stateDuration;
         randomizeTimer = randomizePeriod;
 
-        game.mother.UnfreezeCharacters();
+        game.mother.DespawnCharacters(game.board);
+        game.mother.SpawnCharacters(game.board);
     }
 
     public override void Update()

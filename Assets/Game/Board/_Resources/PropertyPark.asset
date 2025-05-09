@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Park
   description: No special effect
-  price: 3
-  rent: 5
+  price: 4
+  rent: 1
   sprite: {fileID: -734796840722011684, guid: 725ce3533e1deb245a4af466d516b697, type: 3}

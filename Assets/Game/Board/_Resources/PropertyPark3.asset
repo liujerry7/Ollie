@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed6e2d3687084e64c99aedfe7a3fd2aa, type: 3}
-  m_Name: PropertyApartment
+  m_Name: PropertyPark3
   m_EditorClassIdentifier: 
-  title: Apartment
-  description: Rent doubles for every apartment owned
-  price: 6
-  rent: 1
-  sprite: {fileID: -5852267500452843241, guid: 95c1178cab12b5e49b365aafbdac6104, type: 3}
+  title: Park3
+  description: No special effect
+  price: 10
+  rent: 3
+  sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}
