@@ -46,6 +46,12 @@ public class GameStateBuy : GameState
         boardSpaceBuying.Buy(game.player);
         boardSpaceBuying.Unselect();
 
+        if (boardSpaceBuying.property.title == "Gym")
+        {
+            int boardIdx = Random.Range(0, game.board.spaces.Count);
+            game.mother.SpawnCharacter(game.board, boardIdx);
+        }
+
         int numApartments = 0;
 
         foreach (BoardSpace boardSpace in game.board.spaces)
@@ -57,7 +63,7 @@ public class GameStateBuy : GameState
         foreach (BoardSpace boardSpace in game.board.spaces)
         {
             if (boardSpace.owned && boardSpace.property.title == "City Hall")
-                boardSpace.property.rent++;
+                boardSpace.property.rent *= 2;
 
 
             if (boardSpace.owned && boardSpace.property.title == "Apartment")

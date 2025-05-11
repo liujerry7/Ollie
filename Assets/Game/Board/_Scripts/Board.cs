@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     public List<BoardSpace> spaces;
 
     public GameObject boardSpacePrefab;
+    public GameObject ownedSignPrefab;
 
     public int numInitSpaces;
 
@@ -19,6 +20,7 @@ public class Board : MonoBehaviour
 
             boardSpaceObj.transform.position = new Vector3((i - Mathf.FloorToInt(numInitSpaces / 2)) * 10f, boardSpaceObj.transform.position.y, boardSpaceObj.transform.position.z);
             boardSpace.owned = false;
+            boardSpace.ownedSignPrefab = ownedSignPrefab;
 
             spaces.Add(boardSpace);
         }

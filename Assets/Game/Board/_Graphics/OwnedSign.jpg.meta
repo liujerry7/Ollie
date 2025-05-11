@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 725ce3533e1deb245a4af466d516b697
+guid: bcd78065c9966644ab7854d0be960bb1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -734796840722011684
-    second: Park_0
+      213: -7764636793198660145
+    second: OwnedSign_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Park_0
+      name: OwnedSign_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1024
-        height: 1024
+        width: 256
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd96fae9a2a7dc5f0800000000000000
-      internalID: -734796840722011684
+      spriteID: fc53773b9f77e3490800000000000000
+      internalID: -7764636793198660145
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Park_0: -734796840722011684
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
