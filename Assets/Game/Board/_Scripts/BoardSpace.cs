@@ -1,15 +1,20 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardSpace : MonoBehaviour
 {
     public Property property;
+    public List<Character> characters = new List<Character>();
+    public GameObject ownedSignPrefab;
+
     public PropertyTooltip tooltip => GetComponentInChildren<PropertyTooltip>(true);
     public SpriteRenderer spriteRenderer => GetComponentInChildren<SpriteRenderer>();
-    public List<Character> characters = new List<Character>();
 
     public bool owned;
     public bool selected;
+
+    private GameObject ownedSignObj;
 
     public void AddCharacter(Character character)
     {
@@ -49,16 +54,23 @@ public class BoardSpace : MonoBehaviour
     {
         if (owned) return;
 
-        owned = true;
         player.money -= property.price;
+
+        owned = true;
+        ownedSignObj = Instantiate(ownedSignPrefab, transform);
+        ownedSignObj.transform.position = new Vector3(transform.position.x, transform.position.y);
     }
 
     public void Sell(Player player)
     {
         if (!owned) return;
 
-        owned = false;
         player.money += Mathf.RoundToInt(property.price / 2);
+
+        Destroy(ownedSignObj);
+
+        owned = false;
+        ownedSignObj = null;
     }
 
     public void Select()

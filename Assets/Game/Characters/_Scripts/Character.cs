@@ -51,6 +51,15 @@ public class Character : MonoBehaviour
                 strideCount = 5 - strideCount;
             }
 
+            if (strideStep > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+
             boardIdx += strideStep;
 
             board.spaces[boardIdx].AddCharacter(this);
