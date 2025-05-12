@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameStateCollect : GameState
 {
     private float stateDuration = 2f;
@@ -26,6 +28,15 @@ public class GameStateCollect : GameState
 
                 if (boardSpace.property.title == "School")
                     boardSpace.property.rent++;
+            }
+        }
+
+        for (int i = 0; i < game.board.spaces.Count; i++)
+        {
+            if (game.board.spaces[i].owned && game.board.spaces[i].property.title == "Hospital" && game.board.spaces[i].characters.Count >= 2)
+            {
+                int boardIdx = Random.Range(0, game.board.spaces.Count);
+                game.mother.SpawnCharacter(game.board, boardIdx);
             }
         }
 

@@ -298,7 +298,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 6, z: 0}
+  TargetOffset: {x: 0, y: 5, z: 0}
   Damping: {x: 1, y: 1, z: 1}
   Lookahead:
     Enabled: 0
@@ -330,7 +330,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 16
+    OrthographicSize: 12
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -689,7 +689,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 16
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1668,7 +1668,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters: []
-  characterPrefab: {fileID: 4484669740004487673, guid: fb7f114c5b963bd47a1ea30086b33dd0, type: 3}
+  characterPrefabs:
+  - {fileID: 4484669740004487673, guid: fb7f114c5b963bd47a1ea30086b33dd0, type: 3}
+  - {fileID: 6915723312673903167, guid: 2c2ef7eeb95ee774a91b718ab7cf2b12, type: 3}
   numCharacters: 5
 --- !u!1 &1482587253
 GameObject:

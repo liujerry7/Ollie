@@ -21,6 +21,9 @@ public class GameStateInit : GameState
         game.cameraAnchor.Init();
 
         game.tax = 1;
+        game.mother.numCharacters = 5;
+
+        game.mother.SpawnCharacters(game.board);
 
         game.stateMachine.Transition(game.stateShuffle);
     }

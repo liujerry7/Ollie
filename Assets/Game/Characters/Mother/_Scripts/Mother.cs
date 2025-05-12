@@ -5,25 +5,15 @@ public class Mother : MonoBehaviour
 {
     public List<Character> characters;
 
-    public GameObject characterPrefab;
-    public int numCharacters = 1;
+    public List<GameObject> characterPrefabs;
+    public int numCharacters = 5;
 
     public void SpawnCharacters(Board board)
     {
         for (int i = 0; i < numCharacters; i++)
         {
-            GameObject characterObj = Instantiate(characterPrefab, transform);
-            Character character = characterObj.GetComponent<Character>();
-
-            int boardSpaceIdx = Random.Range(0, board.spaces.Count);
-
-            character.board = board;
-            character.boardIdx = boardSpaceIdx;
-            character.Init();
-
-            board.spaces[boardSpaceIdx].AddCharacter(character);
-
-            characters.Add(character);
+            int boardIdx = Random.Range(0, board.spaces.Count);
+            SpawnCharacter(board, boardIdx);
         }
     }
 
@@ -40,6 +30,34 @@ public class Mother : MonoBehaviour
         }
 
         characters.Clear();
+    }
+
+    public void SpawnCharacter(Board board, int boardIdx)
+    {
+        int randIdx = Random.Range(0, characterPrefabs.Count);
+        GameObject characterPrefab = characterPrefabs[randIdx];
+        GameObject characterObj = Instantiate(characterPrefab, transform);
+        Character character = characterObj.GetComponent<Character>();
+
+        if (character is Polly)
+        {
+            character.strideLen = 3;
+            character.strideDur = 4;
+        }
+
+        if (character is Npc)
+        {
+            character.strideLen = 5;
+            character.strideDur = 2;
+        }
+
+        character.board = board;
+        character.boardIdx = boardIdx;
+        character.Init();
+
+       board.spaces[boardIdx].AddCharacter(character);
+
+       characters.Add(character);
     }
 
     public void FreezeCharacters()
