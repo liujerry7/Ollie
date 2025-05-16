@@ -5,6 +5,7 @@ public class Property : ScriptableObject
 {
     public string title;
     public string description;
+    public string type;
     public float price;
     public float rent;
 

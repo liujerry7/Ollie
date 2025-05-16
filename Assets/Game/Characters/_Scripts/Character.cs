@@ -1,17 +1,33 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
     public Board board;
+    public GameObject sprite;
+    public TMP_Text payPopup => GetComponentInChildren<TMP_Text>(true);
 
     public int boardIdx = 0;
     public int strideLen = 5;
     public float strideDur = 1;
 
+    public string type;
+
     private int strideCount = 0;
     private int strideStep = 1;
     private float strideTimer = 1;
     private bool frozen = false;
+
+    public IEnumerator Pay(float amount)
+    {
+        payPopup.text = "$" + Mathf.RoundToInt(amount);
+        payPopup.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        payPopup.gameObject.SetActive(false);
+    }
 
     public void Freeze()
     {
@@ -53,11 +69,11 @@ public class Character : MonoBehaviour
 
             if (strideStep > 0)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                sprite.transform.localScale = new Vector3(1, 1, 1);
             }
             else
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                sprite.transform.localScale = new Vector3(-1, 1, 1);
             }
 
             boardIdx += strideStep;
@@ -75,39 +91,4 @@ public class Character : MonoBehaviour
             strideTimer = strideDur;
         }
     }
-
-    // public Rigidbody2D rb => GetComponent<Rigidbody2D>();
-
-    // public StateMachine<CharacterState> stateMachine;
-    // public CharacterStatePatrol statePatrol;
-    // public CharacterStateFreeze stateFreeze;
-
-    // public bool frozen;
-
-    // public void Freeze()
-    // {
-    //     stateMachine.Transition(stateFreeze);
-    // }
-
-    // public void Unfreeze()
-    // {
-    //     stateMachine.Transition(statePatrol);
-    // }
-
-    // private void Awake()
-    // {
-    //     stateMachine = new StateMachine<CharacterState>();
-    //     statePatrol = new CharacterStatePatrol(this);
-    //     stateFreeze = new CharacterStateFreeze(this);
-    // }
-
-    // private void Update()
-    // {
-    //     stateMachine.currState.Update();
-    // }
-
-    // private void FixedUpdate()
-    // {
-    //     stateMachine.currState.FixedUpdate();
-    // }
 }

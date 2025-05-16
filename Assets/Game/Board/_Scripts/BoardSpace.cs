@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardSpace : MonoBehaviour
 {
     public Property property;
     public List<Character> characters = new List<Character>();
-    public GameObject ownedSignPrefab;
+    public GameObject sign;
 
     public PropertyTooltip tooltip => GetComponentInChildren<PropertyTooltip>(true);
     public SpriteRenderer spriteRenderer => GetComponentInChildren<SpriteRenderer>();
@@ -14,15 +13,16 @@ public class BoardSpace : MonoBehaviour
     public bool owned;
     public bool selected;
 
-    private GameObject ownedSignObj;
-
     public void AddCharacter(Character character)
     {
         characters.Add(character);
 
+        if (property != null && property.title == "House")
+            property.rent = 2 * Mathf.Pow(2, characters.Count);
+
         for (int i = 0; i < characters.Count; i++)
         {
-            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, 0);
+            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, character.transform.position.z);
         }
     }
 
@@ -30,9 +30,12 @@ public class BoardSpace : MonoBehaviour
     {
         characters.Remove(character);
 
+        if (property != null && property.title == "House")
+            property.rent = 2 * Mathf.Pow(2, characters.Count);
+
         for (int i = 0; i < characters.Count; i++)
         {
-            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, 0);
+            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, character.transform.position.z);
         }
     }
 
@@ -48,6 +51,7 @@ public class BoardSpace : MonoBehaviour
         int randIdx = Random.Range(0, propertyList.Count);
         property = Instantiate(propertyList[randIdx]);
         spriteRenderer.sprite = property.sprite;
+        tooltip.property = property;
     }
 
     public void Buy(Player player)
@@ -55,10 +59,8 @@ public class BoardSpace : MonoBehaviour
         if (owned) return;
 
         player.money -= property.price;
-
         owned = true;
-        ownedSignObj = Instantiate(ownedSignPrefab, transform);
-        ownedSignObj.transform.position = new Vector3(transform.position.x, transform.position.y);
+        sign.SetActive(true);
     }
 
     public void Sell(Player player)
@@ -66,11 +68,8 @@ public class BoardSpace : MonoBehaviour
         if (!owned) return;
 
         player.money += Mathf.RoundToInt(property.price / 2);
-
-        Destroy(ownedSignObj);
-
         owned = false;
-        ownedSignObj = null;
+        sign.SetActive(false);
     }
 
     public void Select()

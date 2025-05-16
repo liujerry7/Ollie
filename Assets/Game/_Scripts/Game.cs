@@ -8,6 +8,9 @@ public class Game : MonoBehaviour
     public Mother mother;
     public GameOver gameOver;
     public CameraAnchor cameraAnchor;
+    public GameTax tax;
+
+    public AudioClip paySfx;
 
     public StateMachine<GameState> stateMachine;
     public GameStateInit stateInit;
@@ -15,8 +18,6 @@ public class Game : MonoBehaviour
     public GameStateBuy stateBuy;
     public GameStateCollect stateCollect;
     public GameStateTax stateTax;
-
-    public float tax;
 
     private void Awake()
     {

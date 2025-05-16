@@ -13,33 +13,38 @@ public class GameStateCollect : GameState
         base.Enter();
 
         stateTimer = stateDuration;
+        
+        int numNewChars = 0;
 
-        foreach (Character character in game.mother.characters)
+        foreach (BoardSpace boardSpace in game.board.spaces)
         {
-            BoardSpace boardSpace = game.board.GetBoardSpaceAt(character.transform.position.x);
-
-            if (boardSpace != null && boardSpace.owned)
+            if (boardSpace.owned)
             {
-                game.StartCoroutine(game.hud.ShowPopup(character, boardSpace.property.rent));
-                game.player.money += boardSpace.property.rent;
 
-                if (boardSpace.property.title == "Factory")
-                    boardSpace.property.rent *= 2f;
+                foreach (Character character in boardSpace.characters)
+                {
+                    game.StartCoroutine(character.Pay(boardSpace.property.rent));
+                    game.player.money += boardSpace.property.rent;
 
-                if (boardSpace.property.title == "School")
-                    boardSpace.property.rent++;
+                    if (boardSpace.property.title == "Factory")
+                        boardSpace.property.rent *= 1.5f;
+
+                    if (boardSpace.property.title == "School")
+                        boardSpace.property.rent++;
+
+                    if (boardSpace.property.title == "Hospital")
+                        numNewChars++;
+                }
             }
         }
 
-        for (int i = 0; i < game.board.spaces.Count; i++)
+        for (int i = 0; i < numNewChars; i++)
         {
-            if (game.board.spaces[i].owned && game.board.spaces[i].property.title == "Hospital" && game.board.spaces[i].characters.Count >= 2)
-            {
-                int boardIdx = Random.Range(0, game.board.spaces.Count);
-                game.mother.SpawnCharacter(game.board, boardIdx);
-            }
+            int boardIdx = Random.Range(0, game.board.spaces.Count);
+            game.mother.SpawnCharacter(game.board, boardIdx);
         }
 
+        Speaker.instance.PlaySfxClip(game.paySfx, game.transform, 0.2f);
     }
 
     public override void Update()

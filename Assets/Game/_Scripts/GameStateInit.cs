@@ -16,14 +16,15 @@ public class GameStateInit : GameState
         game.gameOver.gameObject.SetActive(false);
         game.gameOver.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
 
+        foreach (BoardSpace boardSpace in game.board.spaces)
+            boardSpace.GetComponent<BoxCollider2D>().enabled = true;
+
         game.board.Init();
         game.player.Init();
         game.cameraAnchor.Init();
+        game.mother.Init(game.board);
 
-        game.tax = 1;
-        game.mother.numCharacters = 5;
-
-        game.mother.SpawnCharacters(game.board);
+        game.tax = new GameTax();
 
         game.stateMachine.Transition(game.stateShuffle);
     }

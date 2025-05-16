@@ -46,28 +46,28 @@ public class GameStateBuy : GameState
         boardSpaceBuying.Buy(game.player);
         boardSpaceBuying.Unselect();
 
-        if (boardSpaceBuying.property.title == "Gym")
+        if (boardSpaceBuying.property.title == "Junkyard")
         {
             int boardIdx = Random.Range(0, game.board.spaces.Count);
             game.mother.SpawnCharacter(game.board, boardIdx);
         }
 
-        int numApartments = 0;
+        int numHomes = 0;
 
         foreach (BoardSpace boardSpace in game.board.spaces)
         {
-            if (boardSpace.owned && boardSpace.property.title == "Apartment")
-                numApartments++;
+            if (boardSpace.owned && boardSpace.property.type == "Home")
+                numHomes++;
         }
 
         foreach (BoardSpace boardSpace in game.board.spaces)
         {
             if (boardSpace.owned && boardSpace.property.title == "City Hall")
-                boardSpace.property.rent *= 2;
+                boardSpace.property.rent *= 1.5f;
 
 
             if (boardSpace.owned && boardSpace.property.title == "Apartment")
-                boardSpace.property.rent = Mathf.Pow(2, numApartments);
+                boardSpace.property.rent = 2 * Mathf.Pow(2, numHomes);
         }
 
     }

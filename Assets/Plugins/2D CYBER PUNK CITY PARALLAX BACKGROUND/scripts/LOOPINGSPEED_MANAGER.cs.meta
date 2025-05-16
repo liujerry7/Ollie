@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3d2d337ca7dd51544bac5d9d3bbed16b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 312263
+  packageName: 2D-Cyber Punk City Parallax Background
+  packageVersion: 1.0
+  assetPath: Assets/2D CYBER PUNK CITY PARALLAX BACKGROUND/scripts/LOOPINGSPEED_MANAGER.cs
+  uploadId: 737809

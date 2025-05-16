@@ -3,16 +3,22 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public List<Property> propertyList;
-    public List<BoardSpace> spaces;
+    public List<Property> propertyList = new List<Property>();
+    public List<BoardSpace> spaces = new List<BoardSpace>();
 
     public GameObject boardSpacePrefab;
-    public GameObject ownedSignPrefab;
 
     public int numInitSpaces;
 
     public void Init()
     {
+        foreach (BoardSpace space in spaces)
+        {
+            Destroy(space.gameObject);
+        }
+
+        spaces.Clear();
+
         for (int i = 0; i < numInitSpaces; i++)
         {
             GameObject boardSpaceObj = Instantiate(boardSpacePrefab, transform);
@@ -20,7 +26,6 @@ public class Board : MonoBehaviour
 
             boardSpaceObj.transform.position = new Vector3((i - Mathf.FloorToInt(numInitSpaces / 2)) * 10f, boardSpaceObj.transform.position.y, boardSpaceObj.transform.position.z);
             boardSpace.owned = false;
-            boardSpace.ownedSignPrefab = ownedSignPrefab;
 
             spaces.Add(boardSpace);
         }
