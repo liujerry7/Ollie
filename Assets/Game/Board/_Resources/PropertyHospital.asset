@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Hospital
   description: Spawn a character at a random location for each character that lands
     here
-  type: City
-  price: 4
-  rent: 1
+  type: Utility
+  price: 5
+  rent: 0
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

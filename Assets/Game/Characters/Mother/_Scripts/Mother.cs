@@ -19,41 +19,28 @@ public class Mother : MonoBehaviour
     public void SpawnCharacters(Board board)
     {
         for (int i = 0; i < numCharacters; i++)
-        {
-            int boardIdx = Random.Range(0, board.spaces.Count);
-            SpawnCharacter(board, boardIdx);
-        }
+            SpawnCharacter(board);
     }
 
     public void DespawnCharacters(Board board)
     {
-        foreach (BoardSpace boardSpace in board.spaces)
-        {
-            boardSpace.ClearCharacters();
-        }
-
         foreach (Character character in characters)
-        {
             Destroy(character.gameObject);
-        }
 
         characters.Clear();
     }
 
-    public void SpawnCharacter(Board board, int boardIdx)
+    public void SpawnCharacter(Board board)
     {
         int randIdx = Random.Range(0, characterPrefabs.Count);
         GameObject characterPrefab = characterPrefabs[randIdx];
         GameObject characterObj = Instantiate(characterPrefab, transform);
         Character character = characterObj.GetComponent<Character>();
 
-        character.transform.position = new Vector3(character.transform.position.x, character.transform.position.y, -1);
-        character.board = board;
-        character.boardIdx = boardIdx;
+        float randX = Random.Range(board.GetLeftBound(), board.GetRightBound());
 
+        character.transform.position = new Vector3(randX, character.transform.position.y, character.transform.position.z);
         character.Init();
-
-       board.spaces[boardIdx].AddCharacter(character);
 
        characters.Add(character);
     }

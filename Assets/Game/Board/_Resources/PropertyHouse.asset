@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PropertyHouse
   m_EditorClassIdentifier: 
   title: House
-  description: Rent doubles for every character currently on this space
+  description: Rent multiplies by 2 for every character currently on this space
   type: Home
   price: 4
   rent: 2

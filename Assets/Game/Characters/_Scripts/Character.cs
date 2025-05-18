@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public Board board;
     public GameObject sprite;
+    public Rigidbody2D rb => GetComponent<Rigidbody2D>();
     public TMP_Text payPopup => GetComponentInChildren<TMP_Text>(true);
 
-    public int boardIdx = 0;
-    public int strideLen = 5;
-    public float strideDur = 1;
+    private float patrolSpeed;
+    private float patrolOffset; 
+    private bool frozen;
 
-    public string type;
-
-    private int strideCount = 0;
-    private int strideStep = 1;
-    private float strideTimer = 1;
-    private bool frozen = false;
+    public void Init()
+    {
+        patrolOffset = Random.Range(0, 2 * Mathf.PI);
+        patrolSpeed = Random.Range(4f, 16f);
+    }
 
     public IEnumerator Pay(float amount)
     {
@@ -32,6 +31,7 @@ public class Character : MonoBehaviour
     public void Freeze()
     {
         frozen = true;
+        rb.linearVelocityX = 0f;
     }
 
     public void Unfreeze()
@@ -39,56 +39,20 @@ public class Character : MonoBehaviour
         frozen = false;
     }
 
-    public void Init()
-    {
-        strideStep = Random.Range(0f, 1f) > 0.5 ? 1 : -1;
-        strideCount = Random.Range(0, strideLen);
-    }
-
     private void FixedUpdate()
     {
         if (frozen) return;
 
-        strideTimer -= Time.fixedDeltaTime;
+        rb.linearVelocityX = patrolSpeed * Mathf.Sin(Time.fixedTime + patrolOffset);
 
-        if (strideTimer <= 0)
+        if (rb.linearVelocityX > 0)
         {
-            board.spaces[boardIdx].RemoveCharacter(this);
+            sprite.transform.localScale = new Vector3(1, 1, 1);
+        }
 
-            if (boardIdx + strideStep < 0)
-            {
-                strideStep = 1;
-                strideCount = 5 - strideCount;
-            }
-
-            if (boardIdx + strideStep >= board.spaces.Count)
-            {
-                strideStep = -1;
-                strideCount = 5 - strideCount;
-            }
-
-            if (strideStep > 0)
-            {
-                sprite.transform.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                sprite.transform.localScale = new Vector3(-1, 1, 1);
-            }
-
-            boardIdx += strideStep;
-
-            board.spaces[boardIdx].AddCharacter(this);
-
-            strideCount++;
-
-            if (strideCount >= strideLen)
-            {
-                strideStep = strideStep == 1 ? -1 : 1;
-                strideCount = 0;
-            }
-
-            strideTimer = strideDur;
+        if (rb.linearVelocityX < 0)
+        {
+            sprite.transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 }

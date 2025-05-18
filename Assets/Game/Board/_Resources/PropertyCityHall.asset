@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: City Hall
   description: Rent multiplies by 1.5 on buying new property
-  type: City
-  price: 6
+  type: Work
+  price: 8
   rent: 1
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

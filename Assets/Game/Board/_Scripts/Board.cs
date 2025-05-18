@@ -31,6 +31,16 @@ public class Board : MonoBehaviour
         }
     }
 
+    public float GetLeftBound()
+    {
+        return spaces[0].transform.position.x;
+    }
+
+    public float GetRightBound()
+    {
+        return spaces[spaces.Count - 1].transform.position.x;
+    }
+
     public void Randomize()
     {
         foreach (BoardSpace space in spaces)

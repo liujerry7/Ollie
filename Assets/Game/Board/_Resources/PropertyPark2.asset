@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6e2d3687084e64c99aedfe7a3fd2aa, type: 3}
   m_Name: PropertyPark2
   m_EditorClassIdentifier: 
-  title: Park2
+  title: Dog Park
   description: No special effect
-  type: City
-  price: 5
-  rent: 8
+  type: Leisure
+  price: 4
+  rent: 6
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

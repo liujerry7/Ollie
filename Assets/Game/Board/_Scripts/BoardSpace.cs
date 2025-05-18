@@ -4,7 +4,6 @@ using UnityEngine;
 public class BoardSpace : MonoBehaviour
 {
     public Property property;
-    public List<Character> characters = new List<Character>();
     public GameObject sign;
 
     public PropertyTooltip tooltip => GetComponentInChildren<PropertyTooltip>(true);
@@ -13,35 +12,9 @@ public class BoardSpace : MonoBehaviour
     public bool owned;
     public bool selected;
 
-    public void AddCharacter(Character character)
+    public float GetWidth()
     {
-        characters.Add(character);
-
-        if (property != null && property.title == "House")
-            property.rent = 2 * Mathf.Pow(2, characters.Count);
-
-        for (int i = 0; i < characters.Count; i++)
-        {
-            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, character.transform.position.z);
-        }
-    }
-
-    public void RemoveCharacter(Character character)
-    {
-        characters.Remove(character);
-
-        if (property != null && property.title == "House")
-            property.rent = 2 * Mathf.Pow(2, characters.Count);
-
-        for (int i = 0; i < characters.Count; i++)
-        {
-            characters[i].transform.position = new Vector3((10f / (characters.Count + 1)) * (i + 1) + transform.position.x - 5, transform.position.y, character.transform.position.z);
-        }
-    }
-
-    public void ClearCharacters()
-    {
-        characters.Clear();
+        return spriteRenderer.bounds.size.x;
     }
 
     public void Randomize(List<Property> propertyList)
@@ -56,7 +29,11 @@ public class BoardSpace : MonoBehaviour
 
     public void Buy(Player player)
     {
-        if (owned) return;
+        if (owned || player.money < property.price)
+        {
+            Unselect();
+            return;
+        }
 
         player.money -= property.price;
         owned = true;
@@ -65,9 +42,13 @@ public class BoardSpace : MonoBehaviour
 
     public void Sell(Player player)
     {
-        if (!owned) return;
+        if (!owned)
+        {
+            Unselect();
+            return;
+        }
 
-        player.money += Mathf.RoundToInt(property.price / 2);
+        player.money += Mathf.RoundToInt(property.price / 3);
         owned = false;
         sign.SetActive(false);
     }
@@ -84,7 +65,6 @@ public class BoardSpace : MonoBehaviour
     public void Unselect()
     {
         if (!selected) return;
-
         
         Vector3 spritePos = spriteRenderer.transform.position;
         spriteRenderer.transform.position = new Vector3(spritePos.x, spritePos.y - 2, spritePos.z);

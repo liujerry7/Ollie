@@ -12,39 +12,38 @@ public class GameStateCollect : GameState
     {
         base.Enter();
 
+        game.rerollCost = 1;
         stateTimer = stateDuration;
         
         int numNewChars = 0;
+        bool paid = false;
 
-        foreach (BoardSpace boardSpace in game.board.spaces)
+        foreach (Character character in game.mother.characters)
         {
+            BoardSpace boardSpace = game.board.GetBoardSpaceAt(character.transform.position.x);
+
             if (boardSpace.owned)
             {
+                paid = true;
+                game.StartCoroutine(character.Pay(Mathf.RoundToInt(boardSpace.property.rent)));
+                game.player.money += Mathf.RoundToInt(boardSpace.property.rent);
 
-                foreach (Character character in boardSpace.characters)
-                {
-                    game.StartCoroutine(character.Pay(boardSpace.property.rent));
-                    game.player.money += boardSpace.property.rent;
+                if (boardSpace.property.title == "Factory")
+                    boardSpace.property.rent *= 1.5f;
 
-                    if (boardSpace.property.title == "Factory")
-                        boardSpace.property.rent *= 1.5f;
+                if (boardSpace.property.title == "School")
+                    boardSpace.property.rent++;
 
-                    if (boardSpace.property.title == "School")
-                        boardSpace.property.rent++;
-
-                    if (boardSpace.property.title == "Hospital")
-                        numNewChars++;
-                }
+                if (boardSpace.property.title == "Hospital")
+                    game.mother.numCharacters++;
             }
         }
 
         for (int i = 0; i < numNewChars; i++)
-        {
-            int boardIdx = Random.Range(0, game.board.spaces.Count);
-            game.mother.SpawnCharacter(game.board, boardIdx);
-        }
+            game.mother.SpawnCharacter(game.board);
 
-        Speaker.instance.PlaySfxClip(game.paySfx, game.transform, 0.2f);
+        if (paid)
+            Speaker.instance.PlaySfxClip(game.paySfx, game.transform, 0.2f);
     }
 
     public override void Update()

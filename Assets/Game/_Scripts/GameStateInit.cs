@@ -25,6 +25,7 @@ public class GameStateInit : GameState
         game.mother.Init(game.board);
 
         game.tax = new GameTax();
+        game.rerollCost = 1;
 
         game.stateMachine.Transition(game.stateShuffle);
     }

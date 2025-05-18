@@ -17,10 +17,13 @@ public class GameStateShuffle : GameState
         stateTimer = stateDuration;
         randomizeTimer = randomizePeriod;
 
-        int numCharacters = game.mother.characters.Count;
-
         game.mother.DespawnCharacters(game.board);
-        game.mother.numCharacters = numCharacters;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
         game.mother.SpawnCharacters(game.board);
     }
 

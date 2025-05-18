@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Junkyard
   description: Spawn a character at a random location
-  type: City
-  price: 4
-  rent: 1
+  type: Utility
+  price: 5
+  rent: 2
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

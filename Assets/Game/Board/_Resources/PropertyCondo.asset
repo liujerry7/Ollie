@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed6e2d3687084e64c99aedfe7a3fd2aa, type: 3}
-  m_Name: PropertyPark3
+  m_Name: PropertyCondo
   m_EditorClassIdentifier: 
-  title: Playground
-  description: No special effect
-  type: Leisure
-  price: 8
-  rent: 12
+  title: Condo
+  description: Rent increases by 2 for every character on the board
+  type: Home
+  price: 6
+  rent: 0
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

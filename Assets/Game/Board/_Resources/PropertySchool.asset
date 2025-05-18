@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PropertySchool
   m_EditorClassIdentifier: 
   title: School
-  description: Increase rent by 1 for every character that lands here
+  description: Rent increases by 1 for every character that lands here
   type: Education
   price: 5
-  rent: 1
+  rent: 4
   sprite: {fileID: 21300000, guid: b1dcdf74f1f76664187d0a71079b601d, type: 3}

@@ -144,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8025276022888875415}
   - component: {fileID: 1960777062480110292}
-  - component: {fileID: 8800225353477794542}
+  - component: {fileID: 4901063783842093666}
   m_Layer: 0
   m_Name: Polly
   m_TagString: Untagged
@@ -196,7 +196,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8800225353477794542
+--- !u!114 &4901063783842093666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,10 +205,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6508595645664057671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cc26b1d38a438441badc150244cab7c, type: 3}
+  m_Script: {fileID: 11500000, guid: e0bcb45cceb24904da9528320642db47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolSpeed: 4
+  board: {fileID: 0}
+  sprite: {fileID: 6502863407506649250}
+  boardIdx: 0
+  strideLen: 5
+  strideDur: 1
+  type: 
 --- !u!1 &7106948047348655310
 GameObject:
   m_ObjectHideFlags: 0

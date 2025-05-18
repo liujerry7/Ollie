@@ -12,6 +12,8 @@ public class Game : MonoBehaviour
 
     public AudioClip paySfx;
 
+    public float rerollCost = 1;
+
     public StateMachine<GameState> stateMachine;
     public GameStateInit stateInit;
     public GameStateShuffle stateShuffle;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PropertyApartment
   m_EditorClassIdentifier: 
   title: Apartment
-  description: Rent doubles for every home typed property owned
+  description: Rent multiplies by 2 for every home property type bought
   type: Home
   price: 4
   rent: 2

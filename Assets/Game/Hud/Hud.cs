@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Hud : MonoBehaviour
 {
     public Button endTurnButton;
+    public Button rerollButton;
     public Button buyButton;
     public Button sellButton;
     public TMP_Text moneyLabel;
@@ -16,6 +17,6 @@ public class Hud : MonoBehaviour
 
     private void Update()
     {
-        moneyLabel.text = "$" + Mathf.RoundToInt(player.money);
+        moneyLabel.text = "$" + player.money;
     }
 }
